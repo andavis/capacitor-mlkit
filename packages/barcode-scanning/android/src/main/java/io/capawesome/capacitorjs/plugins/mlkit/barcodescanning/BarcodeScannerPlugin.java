@@ -6,6 +6,7 @@ package io.capawesome.capacitorjs.plugins.mlkit.barcodescanning;
 import android.Manifest;
 import android.graphics.Point;
 import android.util.DisplayMetrics;
+import android.util.Size;
 import androidx.activity.result.ActivityResult;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -73,9 +74,17 @@ public class BarcodeScannerPlugin extends Plugin {
             String lensFacingOption = call.getString("lensFacing", "BACK");
             int lensFacing = lensFacingOption.equals("FRONT") ? CameraSelector.LENS_FACING_FRONT : CameraSelector.LENS_FACING_BACK;
 
+            JSObject analysisResolutionOption = call.getObject("analysisResolution", new JSObject());
+            Integer width = analysisResolutionOption.getInteger("width");
+            Integer height = analysisResolutionOption.getInteger("height");
+
             ScanSettings scanSettings = new ScanSettings();
             scanSettings.formats = formats;
             scanSettings.lensFacing = lensFacing;
+
+            if(width != null && height != null){
+                scanSettings.analysisResolution = new Size(width, height);
+            }
 
             boolean granted = implementation.requestCameraPermissionIfNotDetermined(call);
             if (!granted) {

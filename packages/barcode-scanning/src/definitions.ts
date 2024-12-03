@@ -245,6 +245,12 @@ export interface StartScanOptions {
    * @since 0.0.1
    */
   lensFacing?: LensFacing;
+  /**
+   * Set the analysis resolution of the barcode scanner.
+   *
+   * @since 6.3.0
+   */
+  analysisResolution?: AnalysisResolution;
 }
 
 /**
@@ -682,6 +688,20 @@ export enum LensFacing {
    * @since 0.0.1
    */
   Back = 'BACK',
+}
+
+/**
+ * @since 6.3.0
+ */
+export interface AnalysisResolution {
+  /**
+   * @since 6.3.0
+   */
+  width: number;
+  /**
+   * @since 6.3.0
+   */
+  height: number;
 }
 
 /**

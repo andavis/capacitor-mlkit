@@ -96,7 +96,13 @@ public class BarcodeScanner implements ImageAnalysis.Analyzer {
         BarcodeScannerOptions options = buildBarcodeScannerOptions(scanSettings);
         barcodeScannerInstance = BarcodeScanning.getClient(options);
 
-        ImageAnalysis imageAnalysis = new ImageAnalysis.Builder().setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST).build();
+        ImageAnalysis.Builder imageAnalysisBuilder = new ImageAnalysis.Builder();
+
+        if(scanSettings.analysisResolution != null) {
+            imageAnalysisBuilder.setTargetResolution(scanSettings.analysisResolution);
+        }
+
+        ImageAnalysis imageAnalysis = imageAnalysisBuilder.setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST).build();
         imageAnalysis.setAnalyzer(ContextCompat.getMainExecutor(plugin.getContext()), this);
 
         ListenableFuture<ProcessCameraProvider> cameraProviderFuture = ProcessCameraProvider.getInstance(plugin.getContext());
